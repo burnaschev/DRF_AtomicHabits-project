@@ -1,10 +1,4 @@
 from django.conf import settings
-from telebot import TeleBot
-
-# Объявление переменной бота
-bot = TeleBot(settings.TELEGRAM_BOT_API_KEY, threaded=False)
-
-from django.conf import settings
 from django.core.management.base import BaseCommand
 from telebot import TeleBot, types
 
@@ -33,7 +27,7 @@ def callback_query(call):
             user.chat_id = chat_id
             user.save()
             bot.send_message(chat_id, f'Вы успешно подписались!'
-                                      f' Добро пожаловать! {call.message.chat.username}'
+                                      f' Добро пожаловать! {user.username}'
                                       f' Что бы отписаться от канала наберите команду /stop')
         except User.DoesNotExist:
             bot.send_message(chat_id, 'Вы не зарегистрированы в приложений "Атомные привычки"!'
@@ -53,7 +47,6 @@ def unsubscribe(message):
 
 
 class Command(BaseCommand):
-    help = 'Just a command for launching a Telegram bot.'
 
     def handle(self, *args, **kwargs):
         bot.enable_save_next_step_handlers(delay=2)

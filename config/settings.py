@@ -173,7 +173,7 @@ CELERY_TASK_TIME_LIMIT = 30 * 60
 
 CELERY_BEAT_SCHEDULE = {
     'task-name': {
-        'task': 'tasks.send_notifications',
+        'task': 'habits.tasks.send_notifications',
         'schedule': timedelta(minutes=1),
     },
 }

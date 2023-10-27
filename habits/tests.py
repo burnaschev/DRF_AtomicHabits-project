@@ -1,3 +1,10 @@
+from datetime import datetime
+
 from django.test import TestCase
 
-# Create your tests here.
+
+def test():
+    return datetime.now().time()
+
+if __name__ == "__main__":
+    print(test())
