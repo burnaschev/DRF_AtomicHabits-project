@@ -19,20 +19,21 @@ class DurationValidator:
         self.field = field
 
     def __call__(self, value):
-        duration = dict(value).get(self.field)
-
+        duration = value.get(self.field)
+        if duration is None:
+            return
         if duration > 120:
-            raise ValidationError(f"Время выполнения должно быть не больше 120 секунд")
+            raise ValidationError(f"Время выполнения должно быть не больше 120 секунд.")
 
 
 class AssociatedHabitValidator:
     def __init__(self, field):
-        self.field1 = field
+        self.field = field
 
     def __call__(self, value):
         associated_habit = dict(value).get(self.field)
 
-        if not associated_habit.is_pleasurable:
+        if associated_habit and not associated_habit.is_pleasurable:
             raise ValidationError("В связанные привычки могут попадать только привычки с признаком приятной привычки")
 
 
@@ -52,11 +53,13 @@ class IsPleasurableValidator:
 
 
 class DurationPeriodValidator:
-    def __init__(self, field1):
-        self.field1 = field1
+    def __init__(self, field):
+        self.field = field
 
     def __call__(self, value):
-        period = dict(value).get(self.field1)
+        period = value.get(self.field)
 
+        if period is None:
+            return
         if period > 7:
-            raise ValidationError('Нельзя выполнять привычку реже, чем 1 раз в 7 дней.')
+            raise ValidationError(f'Нельзя выполнять привычку реже, чем 1 раз в 7 дней.')
