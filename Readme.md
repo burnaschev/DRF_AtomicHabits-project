@@ -52,8 +52,11 @@ pip install -r requirements.txt
 
 python manage.py runserver
 
-
 После чего вы сможете получить доступ к API по адресу `http://localhost:8000/`.
+
+### Запуск Telegram бота
+
+python manage.py bot
 
 ## Тесты
 
