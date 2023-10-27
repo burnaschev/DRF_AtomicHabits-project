@@ -169,4 +169,13 @@ CELERY_TIMEZONE = "Europe/Moscow"
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
 
+
+
+CELERY_BEAT_SCHEDULE = {
+    'task-name': {
+        'task': 'tasks.send_notifications',
+        'schedule': timedelta(minutes=1),
+    },
+}
+
 TELEGRAM_BOT_API_KEY = os.getenv("TELEGRAM_BOT_API_KEY")
