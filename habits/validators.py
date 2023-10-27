@@ -24,7 +24,7 @@ class DurationValidator:
             return
         if duration > 120:
             raise ValidationError(f"Время выполнения должно быть не больше 120 секунд.")
-
+""
 
 class AssociatedHabitValidator:
     def __init__(self, field):
