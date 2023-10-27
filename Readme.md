@@ -25,6 +25,7 @@
 
 - Фреймворк Django Rest Framework
 - База данных PostgreSQL
+- Celery
 - Язык программирования Python
 - Git
 
@@ -57,6 +58,11 @@ python manage.py runserver
 ### Запуск Telegram бота
 
 python manage.py bot
+
+### Запуск Celery
+
+celery -A config worker -l INFO
+celery -A config beat -l INFO
 
 ## Тесты
 
