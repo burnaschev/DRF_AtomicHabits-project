@@ -70,6 +70,24 @@ python manage.py bot
 
 python manage.py test
 
+## Docker
+
+Если вы предпочитаете использовать Docker:
+
+1. Соберите образ:
+
+    ```bash
+    docker-compose build
+    ```
+
+2. Запустите контейнер:
+
+    ```bash
+    docker-compose up -d
+    ```
+
+    Приложение будет доступно по адресу http://localhost:8080/.
+
 
 ## API Documentation
 
