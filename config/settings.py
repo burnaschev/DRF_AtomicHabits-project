@@ -91,8 +91,7 @@ DATABASES = {
         'NAME': 'DRF_database',
         'USER': 'postgres',
         'PASSWORD': os.getenv('BASE_PASSWORD'),
-        'HOST': '127.0.0.1',
-        'PORT': 5433,    #Docker
+        'HOST': 'db',
     }
 }
 
@@ -163,13 +162,11 @@ CSRF_TRUSTED_ORIGINS = [
     "https://read-and-write.example.com",
 ]
 
-CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
-CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
+CELERY_BROKER_URL = 'redis://redis:6379'
+CELERY_RESULT_BACKEND = 'redis://redis:6379'
 CELERY_TIMEZONE = "Europe/Moscow"
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
-
-
 
 CELERY_BEAT_SCHEDULE = {
     'task-name': {
@@ -180,7 +177,7 @@ CELERY_BEAT_SCHEDULE = {
 
 TELEGRAM_BOT_API_KEY = os.getenv("TELEGRAM_BOT_API_KEY")
 
-#Авторизация в Swagger через Token
+# Авторизация в Swagger через Token
 SWAGGER_SETTINGS = {
     'SECURITY_DEFINITIONS': {
         'api_key': {

@@ -1,0 +1,73 @@
+version: '3.8'
+services:
+  web:
+    build: .
+    volumes:
+      - .:/code
+    tty: true
+    command:
+      sh -c "python3 manage.py migrate &&
+      python3 manage.py runserver 0.0.0.0:8080"
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres
+    volumes:
+      - postgresql:/var/lib/postgresql/database-postgres
+      - postgresql_data:/var/lib/postgresql/database-postgres/data
+    environment:
+      - PGDATA=/var/lib/postgresql/data/pgdata
+      - POSTGRES_PASSWORD=$BASE_PASSWORD
+      - POSTGRES_DB=DRF_database
+      - POSTGRES_USER=postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -h db -p 5432"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:alpine
+
+  celery:
+    build: .
+    tty: true
+    command: celery -A config worker -l INFO
+    volumes:
+      - .:/code
+    depends_on:
+      - web
+      - redis
+
+  celery-beat:
+    build: .
+    tty: true
+    command: celery -A config beat -l info
+    volumes:
+      - .:/code
+    depends_on:
+      - web
+      - redis
+
+  bot:
+    build: .
+    tty: true
+    command: python3 manage.py bot
+    volumes:
+      - .:/code
+    depends_on:
+      - web
+      - redis
+      - db
+
+
+
+volumes:
+  postgresql:
+  postgresql_data:
